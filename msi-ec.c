@@ -1588,6 +1588,69 @@ static struct msi_ec_conf CONF_G2_10 __initdata = {
 	},
 };
 
+static const char *ALLOWED_FW_G2_11[] __initconst = {
+	"14K1EMS1.108", // Stealth 14 Studio A13VF
+	NULL
+};
+
+static struct msi_ec_conf CONF_G2_11 __initdata = {
+	.allowed_fw = ALLOWED_FW_G2_11, // legacy fw_27, fw_28 (G2_11), fw_33 (G2_13) fw_35 (G2_15), fw_37 (G2_16), fw_56 (G2_20), fw_59 (G2_21)
+	.charge_control_address = MSI_EC_ADDR_UNSUPP,
+	.webcam = {
+		.address       = MSI_EC_ADDR_UNSUPP,
+	},
+	.fn_win_swap = {
+		.address = MSI_EC_ADDR_UNSUPP,
+		.bit     = 4,
+		.invert  = true,
+	},
+	.cooler_boost = {
+		.address = 0x98,
+		.bit     = 7,
+	},
+	.shift_mode = {
+		.address = 0xd2,
+		.modes = {
+			{ SM_ECO_NAME,     0xc2 },
+			{ SM_COMFORT_NAME, 0xc1 },
+			{ SM_TURBO_NAME,   0xc4 }, // sometimes 0xc0
+			MSI_EC_MODE_NULL
+		},
+	},
+	.super_battery = {
+		.address = MSI_EC_ADDR_UNSUPP,
+	},
+	.fan_mode = {
+		.address = 0xd4,
+		.modes = {
+			{ FM_AUTO_NAME,     0x0d },
+			{ FM_ADVANCED_NAME, 0x8d },
+			MSI_EC_MODE_NULL
+		},
+	},
+	.cpu = {
+		.rt_temp_address      = 0x68,
+		.rt_fan_speed_address = 0xcb,
+	},
+	.gpu = {
+		.rt_temp_address      = 0x9e,
+		.rt_fan_speed_address = 0xc8,
+	},
+	.leds = {
+		.micmute_led_address = 0x2c,
+		.mute_led_address    = 0x2d,
+		.bit                 = 1,
+	},
+	.kbd_bl = {
+		.bl_mode_address  = MSI_EC_ADDR_UNSUPP,
+		.bl_modes         = { 0x00, 0x08 },
+		.max_mode         = 1,
+		.bl_state_address = MSI_EC_ADDR_UNSUPP,
+		.state_base_value = 0x80,
+		.max_state        = 3,
+	},
+};
+
 /* ^^^^^^^^^^^^^^^^ Gen 2 - WMI2 ^^^^^^^^^^^^^^^^ */
 
 static struct msi_ec_conf *CONFIGURATIONS[] __initdata = {
@@ -1614,6 +1677,7 @@ static struct msi_ec_conf *CONFIGURATIONS[] __initdata = {
 	&CONF_G2_4,
 	&CONF_G2_6,
 	&CONF_G2_10,
+	&CONF_G2_11,
 	NULL
 };
 
